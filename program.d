@@ -1,5 +1,5 @@
-program: program.c stadt.h stadt.c
+program.o: program.c stadt.h region.h
 
 stadt.h:
 
-stadt.c:
+region.h:
