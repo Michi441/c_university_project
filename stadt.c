@@ -71,47 +71,42 @@ Stadt *findStadt(StadtList *sl, int id)
 
 void TheDestroyer(StadtList *sl, RegionList *rl, int id)
 {
-    int i;
+    //int i;
     int z;
     int count = 0;
 
     Stadt *s = findStadt(sl, id);
 
     Region *r = findRegion(rl, s->einwohner);
-
-    Region *x = NULL;
-
-    printf("%s", r->name);
+    printf("%s %d", r->name, r->regionId);
+    Region *bundesLand = findRegion(rl, r->overRegion);
+    printf("%s %d", bundesLand->name, bundesLand->regionId);
+    Region *Land = findRegion(rl, bundesLand->overRegion);
+    printf("%s %d", Land->name, Land->regionId);
 
     for (int i = 0; i < rl->count; i++)
     {
-
-        if (rl->region[i]->regionId == r->overRegion)
+        if (rl->region[i]->overRegion == bundesLand->regionId)
         {
-            x = rl->region[i];
+            printf("%s", rl->region[i]->name);
+            for (int z = 0; z < sl->count; z++)
+            {
+                if (sl->stadt[z]->einwohner == rl->region[i]->regionId)
+                {
+                    printf("%s", sl->stadt[z]->name);
+                }
+            }
         }
     }
 
-    Region *bundesLand = findRegion(rl, r->overRegion);
-    printf("%s", bundesLand->name);
-    Region *Land = findRegion(rl, bundesLand->overRegion);
-    printf("%s", Land->name);
-    Region *Kontinent = findRegion(rl, Land->overRegion);
-    printf("%s", Kontinent->name);
-
-    printf("%101s %s",
+    printf("%101s %s \n",
            "the city we want to destroy is.......",
            s->name);
 
-    for (int z = 0; z < sl->count; z++)
-    {
-
-        if (bundesLand->regionId == sl->stadt[z]->einwohner)
-        {
-
-            printf("%s", sl->stadt[z]->name);
-        }
-    }
+    // for (int z = 0; z < sl->count; z++)
+    // {
+    //     printf("%d", Land->regionId);
+    // }
 }
 
 void printStadt(Stadt *s)

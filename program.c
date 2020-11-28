@@ -25,6 +25,6 @@ int main(int argc, char *argv[])
 
     readRegionList(rl, argv[2]);
     printR(rl, 21);
-    TheDestroyer(sl, rl, 3);
+    TheDestroyer(sl, rl, 22);
     //SortCitiesToRegion(rl, );
 }
