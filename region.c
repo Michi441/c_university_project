@@ -1,15 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "stadt.h"
-#include "stadt.c"
 #include "region.h"
 
-RegionList *RegionList()
+RegionList *newRegionList()
 {
-    printf("executed newstadtlist");
+    printf("executed newRegionlist");
     RegionList *rl = (RegionList *)malloc(sizeof(RegionList));
     rl->count = 0;
-    rl->allocated = 10;
+    rl->allocated = 11;
     rl->region = (Region **)calloc(rl->allocated, sizeof(Region *));
     return rl;
 }
@@ -20,7 +18,7 @@ Region *newRegion(RegionList *rl)
     if (rl->count >= rl->allocated)
     {
         rl->allocated *= 2;
-        rl->region = (Region **)realloc(sl->region, sl->allocated * sizeof(Region *));
+        rl->region = (Region **)realloc(rl->region, rl->allocated * sizeof(Region *));
     }
     Region *r = (Region *)malloc(sizeof(Region));
     rl->region[rl->count++] = r;
@@ -28,7 +26,7 @@ Region *newRegion(RegionList *rl)
 }
 
 // Reads the file stadt.dat and adds the data to our StadtList struct.
-void readStadtList(StadtList *sl, char *fileName)
+void readRegionList(RegionList *rl, char *fileName)
 {
 
     FILE *file = fopen(fileName, "r");
@@ -45,11 +43,53 @@ void readStadtList(StadtList *sl, char *fileName)
     while (r != EOF)
     {
 
-        Stadt *s = newStadt(sl);
-        r = fscanf(file, "%d %100s %d %d %d",
-                   &s->stadtId, s->name, &s->gebietId, &s->einwohner, &s->meeresHoehe);
-        //printStadt(s);
+        Region *re = newRegion(rl);
+        r = fscanf(file, "%d %100s %d %1s",
+                   &re->regionId, re->name, &re->overRegion, re->_typ);
+        //PrintR(re);
     }
 
     fclose(file);
+}
+
+Region *findRegion(RegionList *rl, int id)
+{
+    int i;
+    Region *r = NULL;
+
+    for (i = 0; i < rl->count; i++)
+        if (rl->region[i]->regionId == id)
+        {
+            r = rl->region[i];
+        }
+    return r;
+}
+
+// void SortCitiesToRegion(RegionList *rl, StadtList *sl)
+// {
+//     int i;
+//     int z;
+//     Region *r = NULL;
+//     Stadt *s = NULL;
+
+//     for (i = 0; i < rl->count; i++)
+//     {
+
+//         for (z = 0; z < rl->count; z++)
+//         {
+//             if (rl->region[i]->regionId == sl->stadt[z]->einwohner)
+//             {
+//                 printf("%d  \n", rl->region[i]->regionId);
+//                 printf("%d \n", sl->stadt[z]->einwohner);
+//             }
+//         }
+//     }
+// }
+
+void printR(RegionList *rl, int id)
+{
+
+    Region *r = findRegion(rl, id);
+
+    printf("%101s \n", r->name);
 }

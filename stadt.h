@@ -1,7 +1,9 @@
 #ifndef STADT_H
 #define STADT_H
-typedef struct{
+#include "region.h"
 
+
+typedef struct{
     int stadtId;
     char name[101];
     int einwohner;
@@ -21,6 +23,9 @@ Stadt *newStadt(StadtList *sl);
 
 void readStadtList(StadtList *sl, char *fileName);
 void printStadt(Stadt *s);
+
+// Use this with cautions. Simulated destroyer for a city!
+void TheDestroyer(StadtList *sl, RegionList *rl, int id);
 
 void printStadtWithId(StadtList *sl, int id);
 void GetPopulationSize(StadtList *sl, int id);
