@@ -1,13 +1,13 @@
 CFLAGS=-MMD -MP -Wall
 
 PROGRAMS=programm
-OBJECTS=programm.o stadt.o
+OBJECTS=program.o stadt.o region.o
 
 ALLOBJECTS=$(OBJECTS) $(patsubst %,%.o,$(PROGRAMS))
 
 default: $(PROGRAMS)
 
-programm: $(OBJECTS)
+program: $(OBJECTS)
 
 clean:
 	-rm -f $(ALLOBJECTS) $(ALLOBJECTS:%.o=%.d) $(PROGRAMS)

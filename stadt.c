@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "stadt.h"
+#include "region.h"
 
-// I guess this is the standard way to do it as i have 
+// I guess this is the standard way to do it as i have
 // found this in the example program but also on the internet.
-// i pretty much copied that and adjusted it. 
-StadtList *newStadtList(){
+// i pretty much copied that and adjusted it.
+StadtList *newStadtList()
+{
     printf("executed newstadtlist");
     StadtList *sl = (StadtList *)malloc(sizeof(StadtList));
     sl->count = 0;
@@ -14,7 +16,7 @@ StadtList *newStadtList(){
     return sl;
 }
 
-// Same as above. 
+// Same as above.
 Stadt *newStadt(StadtList *sl)
 {
     if (sl->count >= sl->allocated)
@@ -28,28 +30,29 @@ Stadt *newStadt(StadtList *sl)
 }
 
 // Reads the file stadt.dat and adds the data to our StadtList struct.
-void readStadtList(StadtList *sl, char *fileName){
-
+void readStadtList(StadtList *sl, char *fileName)
+{
 
     FILE *file = fopen(fileName, "r");
     // If there isn't a file, we can't read anything. Return error.
-    if(file == NULL){
+    if (file == NULL)
+    {
         perror(fileName);
         exit(1);
     }
- 
+
     // Integer used for the iteration.
     int r;
-    // while r != EOF 
-    while(r != EOF){
-
+    // while r != EOF
+    while (r != EOF)
+    {
 
         Stadt *s = newStadt(sl);
-            r = fscanf(file, "%d %100s %d %d %d",
-            &s->stadtId, s->name, &s->gebietId, &s->einwohner, &s->meeresHoehe);
-            //printStadt(s);
+        r = fscanf(file, "%d %100s %d %d %d",
+                   &s->stadtId, s->name, &s->gebietId, &s->einwohner, &s->meeresHoehe);
+        //printStadt(s);
     }
-    
+
     fclose(file);
 }
 
@@ -59,10 +62,23 @@ Stadt *findStadt(StadtList *sl, int id)
     Stadt *s = NULL;
 
     for (i = 0; i < sl->count; i++)
-        if (sl->stadt[i]->stadtId == id){
+        if (sl->stadt[i]->stadtId == id)
+        {
             s = sl->stadt[i];
         }
     return s;
+}
+
+void TheDestroyer(StadtList *sl, RegionList *rl, int id)
+{
+    int i;
+    int z;
+    Region *r = NULL;
+    Stadt *s = findStadt(sl, id);
+
+    printf("%101s %s",
+           "the city we want to destroy is.......",
+           s->name);
 }
 
 void printStadt(Stadt *s)
@@ -72,14 +88,16 @@ void printStadt(Stadt *s)
     //findStadt(StadtList *sl, 1);
 }
 
-void printStadtWithId(StadtList *sl, int id){
+void printStadtWithId(StadtList *sl, int id)
+{
 
-    Stadt *s = findStadt(sl, id);
+    //Stadt *s = findStadt(sl, id);
 
-    printStadt(s);
+    //printStadt(s);
 }
 
-void GetPopulationSize(StadtList *sl, int id){
+void GetPopulationSize(StadtList *sl, int id)
+{
 
     Stadt *s = findStadt(sl, id);
 
